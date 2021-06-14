@@ -1,15 +1,35 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {auth, googleAuthProvider} from '../../firebase';
 import { toast } from "react-toastify";
 import {Button} from 'antd'
 import { MailOutlined, GoogleOutlined}  from '@ant-design/icons';
 import {useDispatch} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+
+const createOrUpdateUser = async (authtoken) => {
+    return await axios.post(
+        `${process.env.REACT_APP_API}/create-or-update-user`, 
+        {},
+         {
+        headers: {
+            authtoken,
+        },
+    });
+};
 
 
 const Login  = ({history}) => {
     const [email, setEmail] = useState('dreking11@gmail.com');
     const [password, setPassword] = useState('123456');
     const [loading, setLoading] = useState(false);
+
+    const {user} = useSelector((state) => ({...state}));
+
+    useEffect(() => {
+        if(user && user.token) history.push('/');
+    }, [user]);
 
     let dispatch = useDispatch();
 
@@ -25,14 +45,18 @@ const Login  = ({history}) => {
           const {user} = result;
           const idTokenResult = await user.getIdTokenResult();
 
-          dispatch({
-            type: 'LOGGED_IN_USER',
-            payload: {
-              email:user.email,
-              token:idTokenResult.token,
-            },
-          });
-          history.push('/')
+          createOrUpdateUser(idTokenResult.token)
+          .then((res) => console.log("CREATE OR UPDATE RES", res))
+          .catch();
+
+          //dispatch({
+           // type: 'LOGGED_IN_USER',
+           // payload: {
+             // email:user.email,
+             // token:idTokenResult.token,
+           // },
+         // });
+         // history.push('/')
         } catch (error) {
             console.log(error);
             toast.error(error.mesaage); 
@@ -116,7 +140,11 @@ const Login  = ({history}) => {
                     icon={<GoogleOutlined/>}
                     size='large'
                     >Sign-In With Google 
-                    </Button>  
+                    </Button> 
+
+                    <Link to='/forgot/password' className='float-right text-danger'>
+                        Forgot Password
+                    </Link>
                 </div>
             </div>
         </div>
