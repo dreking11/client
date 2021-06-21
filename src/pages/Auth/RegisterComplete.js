@@ -1,12 +1,17 @@
-import React, {useState ,useEffect} from 'react';
-import {auth} from '../../firebase';
+import React, { useState, useEffect } from 'react';
+import { auth } from '../../firebase';
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from 'react-redux';
+import { createOrUpdateUser } from '../../functions/auth';
 
 
-const RegisterComplete = ({history}) => {
+const RegisterComplete = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
+    const { user } = useSelector((state) => ({ ...state }));
+    let dispatch = useDispatch();
 
     useEffect(() => {
         setEmail(window.localStorage.getItem('emailForRegistration'))
@@ -15,22 +20,22 @@ const RegisterComplete = ({history}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         //validation
-        if(!email || !password) {
+        if (!email || !password) {
             toast.error('Email and password is required');
             return;
         }
 
-        if(password.length < 6) {
+        if (password.length < 6) {
             toast.error('Password must be at least 6 characters long ');
             return;
         }
 
         try {
             const result = await auth.signInWithEmailLink(
-            email, 
-            window.location.href
+                email,
+                window.location.href
             );
-            if(result.user.emailVerified) {
+            if (result.user.emailVerified) {
                 //remove user email from local storage
                 window.localStorage.removeItem('emailForRegistration');
                 //get user id token
@@ -38,7 +43,21 @@ const RegisterComplete = ({history}) => {
                 await user.updatePassword(password);
                 const idTokenResult = await user.getIdTokenResult()
                 //redux store
-                
+
+                createOrUpdateUser(idTokenResult.token)
+                    .then((res) => {
+                        dispatch({
+                            type: 'LOGGED_IN_USER',
+                            payload: {
+                                name: res.data.name,
+                                email: res.data.email,
+                                token: idTokenResult.token,
+                                role: res.data.role,
+                                _id: res.data._id,
+                            },
+                        });
+                    })
+                    .catch(err => console.log(err));
                 //redirect
                 history.push('/');
             }
@@ -46,7 +65,7 @@ const RegisterComplete = ({history}) => {
             toast.error(error.message);
 
         }
-        
+
     };
 
     const completeRegistrationForm = () => (
@@ -65,10 +84,10 @@ const RegisterComplete = ({history}) => {
                 placeholder="Enter Password"
                 autoFocus
             />
-            <br/>
+            <br />
             <button type="submit" className="btn btn-raised">
-               Complete registration
-         </button>
+                Complete registration
+            </button>
         </form>
     );
 
