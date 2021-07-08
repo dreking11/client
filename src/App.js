@@ -8,6 +8,8 @@ import RegisterComplete from './pages/Auth/RegisterComplete';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import History from "./pages/user/History";
+import UserRoute from "./components/Routes/UserRoute";
 
 import {auth} from './firebase';
 import {useDispatch} from 'react-redux';
@@ -52,6 +54,7 @@ const dispatch = useDispatch();
       <Route exact path="/register" component={Register}/>
       <Route exact path="/register/registercomplete" component={RegisterComplete}/>
       <Route exact path="/forgot/password" component={ForgotPassword}/>
+      <UserRoute exact path="/user/history" component={History}/>
     </Switch>
     </>
   );
