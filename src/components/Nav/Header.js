@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {Menu} from 'antd';
 import { 
     HomeOutlined, 
-    LogoutOutlined,
-    AppstoreOutlined, 
+    LogoutOutlined, 
     SettingOutlined,
     UserOutlined,
     UserAddOutlined  
@@ -14,10 +13,10 @@ import { useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 
-const { SubMenu, Item } = Menu
+const { SubMenu, Item } = Menu;
 
 const Header = () => {
-    const [current, setCurrent] =useState('home')
+    const [current, setCurrent] =useState('home');
 
     let dispatch = useDispatch();
     let {user} = useSelector((state) => ({...state}));

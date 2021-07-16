@@ -16,7 +16,7 @@ const Login = ({ history }) => {
 
     useEffect(() => {
         if (user && user.token) history.push('/');
-    }, [user]);
+    }, [user, history]);
 
     let dispatch = useDispatch();
 
@@ -116,7 +116,7 @@ const Login = ({ history }) => {
             <br />
             <Button onClick={handleSubmit}
                 type='primary'
-                className-mb-3
+                className='mb-3'
                 block
                 shape='round'
                 icon={<MailOutlined />}
@@ -141,7 +141,7 @@ const Login = ({ history }) => {
 
                     <Button onClick={googleLogin}
                         type='danger'
-                        className-mb-3
+                        className='mb-3'
                         block
                         shape='round'
                         icon={<GoogleOutlined />}

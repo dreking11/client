@@ -1,17 +1,20 @@
 import React, {useEffect} from "react";
 import {Switch, Route} from 'react-router-dom';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Home from './pages/Home';
 import Header from './components/Nav/Header';
 import RegisterComplete from './pages/Auth/RegisterComplete';
 import ForgotPassword from './pages/Auth/ForgotPassword';
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import History from "./pages/user/History";
 import UserRoute from "./components/Routes/UserRoute";
+import AdminRoute from "./components/Routes/AdminRoute";
 import Password from "./pages/user/Password";
 import Wishlist from "./pages/user/WishList";
+import AdminDashboard from "./pages/admin/admin.dashboard";
 
 import {auth} from './firebase';
 import {useDispatch} from 'react-redux';
@@ -43,8 +46,9 @@ const dispatch = useDispatch();
           .catch(err => console.log(err));
       }
     });
+    //cleanup
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 
   return(
     <>
@@ -59,6 +63,7 @@ const dispatch = useDispatch();
       <UserRoute exact path="/user/history" component={History}/>
       <UserRoute exact path="/user/password" component={Password}/>
       <UserRoute exact path="/user/wishlist" component={Wishlist}/>
+      <AdminRoute exact path="/admin/dashboard" component={AdminDashboard}/>
     </Switch>
     </>
   );
