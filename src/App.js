@@ -1,23 +1,23 @@
 import React, {useEffect} from "react";
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route} from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
-import Login from './pages/Auth/Login';
-import Register from './pages/Auth/Register';
-import Home from './pages/Home';
-import Header from './components/Nav/Header';
-import RegisterComplete from './pages/Auth/RegisterComplete';
-import ForgotPassword from './pages/Auth/ForgotPassword';
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Home from "./pages/Home";
+import Header from "./components/Nav/Header";
+import RegisterComplete from "./pages/auth/RegisterComplete";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 import History from "./pages/user/History";
-import UserRoute from "./components/Routes/UserRoute";
-import AdminRoute from "./components/Routes/AdminRoute";
+import UserRoute from "./components/routes/UserRoute";
+import AdminRoute from "./components/routes/AdminRoute";
 import Password from "./pages/user/Password";
 import Wishlist from "./pages/user/WishList";
 import AdminDashboard from "./pages/admin/admin.dashboard";
 
-import {auth} from './firebase';
-import {useDispatch} from 'react-redux';
+import {auth} from "./firebase";
+import {useDispatch} from "react-redux";
 import { currentUser } from "./functions/auth";
 
 

@@ -99,19 +99,21 @@ const Login = ({ history }) => {
                     className="form-control"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder=' Your email'
+                    placeholder='Your email'
                     autoFocus
                 />
             </div>
 
+            <div className='form-group'>
             <input
                 type="password"
                 className="form-control"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder=' Your password'
+                placeholder= 'Your password'
                 autoFocus
             />
+            </div>
 
             <br />
             <Button onClick={handleSubmit}
@@ -146,7 +148,8 @@ const Login = ({ history }) => {
                         shape='round'
                         icon={<GoogleOutlined />}
                         size='large'
-                    >Sign-In With Google
+                    >
+                       Sign-In With Google
                     </Button>
 
                     <Link to='/forgot/password' className='float-right text-danger'>
