@@ -69,7 +69,7 @@ const dispatch = useDispatch();
       <AdminRoute exact path="/admin/category" component={CategoryCreate}/>
       <AdminRoute 
       exact 
-      path="/admin/category:slug"
+      path="/admin/category/:slug"
        component={CategoryUpdate}
        />
     </Switch>
