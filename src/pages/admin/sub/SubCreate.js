@@ -3,42 +3,50 @@ import AdminNav from "../../../components/Nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import {
-  createCategory,
-  getCategories,
-  removeCategory,
-} from "../../../functions/category";
+  createSub,
+  getSub,
+  removeSub,
+  getSubs
+} from "../../../functions/sub";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
+import { getCategories } from "../../../functions/category";
 
-const CategoryCreate = () => {
+const SubCreate = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
+  const [subs, setSubs] = useState([]);
 
   const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     loadCategories();
+    loadSubs();
   }, []);
 
   const loadCategories = () =>
     getCategories().then((c) => setCategories(c.data));
 
+    const loadSubs = () =>
+    getSubs().then((s) => setSubs(s.data));
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(name);
     setLoading(true);
-    createCategory({ name }, user.token)
+    createSub({ name, parent: category }, user.token)
       .then((res) => {
         // console.log(res)
         setLoading(false);
         setName("");
         toast.success(`"${res.data.name}" is created`);
-        loadCategories();
+        loadSubs();
       })
       .catch((err) => {
         console.log(err);
@@ -52,11 +60,11 @@ const CategoryCreate = () => {
     // console.log(answer, slug);
     if (window.confirm("Delete?")) {
       setLoading(true);
-      removeCategory(slug, user.token)
+      removeSub(slug, user.token)
         .then((res) => {
           setLoading(false);
           toast.error(`${res.data.name} deleted`);
-          loadCategories();
+          loadSubs();
         })
         .catch((err) => {
           if (err.response.status === 400) {
@@ -81,24 +89,43 @@ const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
           {loading ? (
             <h4 className="text-danger">Loading..</h4>
           ) : (
-            <h4>Create category</h4>
+            <h4>Create Sub-category</h4>
           )}
+
+        <div className="form=group">
+            <label>Parent Category</label>
+            <select 
+                name="category" 
+                className="form-control" 
+                onChange={e => setCategory(e.target.value)}
+                >
+                <option>Please Select</option>
+                {categories.length > 0 &&
+                 categories.map((c) => (
+                 <option key={c._id} value={c._id}>
+                     {c.name}
+                    </option>
+                ))}
+            </select>
+        </div>
+
+
           <CategoryForm 
           handleSubmit={handleSubmit} 
           name={name}
           setName={setName}
           />
           <LocalSearch keyword={keyword} setKeyword={setKeyword}/>
-          {categories.filter(searched(keyword)).map((c) => (
-            <div className="alert alert-secondary" key={c._id}>
-              {c.name}
+          {subs.filter(searched(keyword)).map((s) => (
+            <div className="alert alert-secondary" key={s._id}>
+              {s.name}
               <span
-                onClick={() => handleRemove(c.slug)}
+                onClick={() => handleRemove(s.slug)}
                 className="btn btn-sm float-right"
               >
                 <DeleteOutlined className="text-danger" />
               </span>
-              <Link to={`/admin/category/${c.slug}`}>
+              <Link to={`/admin/sub/${s.slug}`}>
                 <span className="btn btn-sm float-right">
                   <EditOutlined className="text-warning" />
                 </span>
@@ -111,4 +138,4 @@ const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
   );
 };
 
-export default CategoryCreate;
+export default SubCreate;
