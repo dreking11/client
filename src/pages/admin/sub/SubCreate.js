@@ -92,7 +92,7 @@ const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
             <h4>Create Sub-category</h4>
           )}
 
-        <div className="form=group">
+        <div className="form-group">
             <label>Parent Category</label>
             <select 
                 name="category" 
