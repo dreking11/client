@@ -26,6 +26,7 @@ const initialState = {
 const ProductCreate = () => {
 const [values, setValues] = useState(initialState);
 const [subOptions, setSubOptions] = useState([]);
+const[showSub,setShowSub] =useState(false);
 
 const {user} = useSelector((state) => ({...state}));
 
@@ -79,8 +80,11 @@ const handleCategorychange = (e) => {
                    <ProductCreateForm 
                    handleSubmit={handleSubmit} 
                    handleChange={handleChange} 
+                   setValues={setValues}
                    values={values}
                    handleCategorychange={handleCategorychange}
+                   subOptions={subOptions}
+                   showSub={showSub}
                    />
                 </div>
             </div>

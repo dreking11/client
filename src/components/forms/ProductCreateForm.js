@@ -1,9 +1,34 @@
 import React from "react";
+import { Select } from 'antd';
 
-const ProductCreateForm = ({handleChange, handleSubmit, values,handleCategorychange}) => {
+const { Option } = Select;
 
-    const {title,description,price,categories,category,subs,shipping,quantity,images,colors,brands,color,brand}=values;
+const ProductCreateForm = ({
+  handleChange, 
+  handleSubmit, 
+  values,
+  setValues,
+  handleCategorychange,
+  subOptions,
+  showSub}) => {
+
+    const {
+      title,
+      description,
+      price,
+      categories,
+      category,
+      subs,
+      shipping,
+      quantity,
+      images,
+      colors,
+      brands,
+      color,
+      brand
+    }=values;
 return (
+  
   <form onSubmit={handleSubmit}>
     <div className="form-group">
       <label>Title</label>
@@ -12,8 +37,7 @@ return (
         name="title"
         className="form-control"
         value={title}
-        onChange={handleChange}
-      />
+        onChange={handleChange} />
     </div>
 
     <div className="form-group">
@@ -23,8 +47,7 @@ return (
         name="description"
         className="form-control"
         value={description}
-        onChange={handleChange}
-      />
+        onChange={handleChange} />
     </div>
 
     <div className="form-group">
@@ -34,8 +57,7 @@ return (
         name="price"
         className="form-control"
         value={price}
-        onChange={handleChange}
-      />
+        onChange={handleChange} />
     </div>
 
     <div className="form-group">
@@ -54,8 +76,7 @@ return (
         name="quantity"
         className="form-control"
         value={quantity}
-        onChange={handleChange}
-      />
+        onChange={handleChange} />
     </div>
 
     <div className="form-group">
@@ -83,24 +104,35 @@ return (
     </div>
 
     <div className="form-group">
-            <label>Category</label>
-            <select 
-                name="category" 
-                className="form-control" 
-                onChange={handleCategorychange}
-                >
-                <option>Please Select</option>
-                {categories.length > 0 &&
-                 categories.map((c) => (
-                 <option key={c._id} value={c._id}>
-                     {c.name}
-                    </option>
-                ))}
-            </select>
-        </div>
-
-    <button className="btn btn-outline-info">Save</button>
+      <label>Category</label>
+      <select
+        name="category"
+        className="form-control"
+        onChange={handleCategorychange}
+      >
+        <option>Please Select</option>
+        {categories.length > 0 &&
+          categories.map((c) => (
+            <option key={c._id} value={c._id}>
+              {c.name}
+            </option>
+          ))}
+      </select>
+    </div>
+    <div>
+      <label>Sub Categories</label>
+      <Select
+        mode="multiple"
+        style={{width:"100%"}}
+        placeholder="Please Select"
+        value={subs}
+        onChange={(value) => setValues({...values, subs: value })}
+      >
+        {subOptions.length 
+        && subOptions.map((s) => <Option key={s._id} value={s._id}>{s.name}</Option>)}
+    </Select>
+  </div><button className="btn btn-outline-info">Save</button>
   </form>
-    );
+);
 };
 export default ProductCreateForm;
