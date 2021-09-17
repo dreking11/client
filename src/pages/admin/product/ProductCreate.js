@@ -26,7 +26,7 @@ const initialState = {
 const ProductCreate = () => {
 const [values, setValues] = useState(initialState);
 const [subOptions, setSubOptions] = useState([]);
-const[showSub,setShowSub] =useState(false);
+const[showSub,setShowSub] = useState(false);
 
 const {user} = useSelector((state) => ({...state}));
 
@@ -49,23 +49,25 @@ const handleSubmit = (e) => {
         console.log(err)
         toast.error(err.response.data.err);
         //if (err.response.status === 400) toast.error(err.response.data);
+        toast.error(err.response.data.err);
     });
 };
 
 const handleChange = (e) => {
-    setValues({...values, category: e.target.value});
+    setValues({...values, [e.target.name]: e.target.value});
 };
 
 
-const handleCategorychange = (e) => {
-    e.preventDefault()
-    console.log('CLICKED CATEGORY', e.target.value)
-    setValues({...values, [e.target.name]: e.target.value});
+const handleCategoryChange = (e) => {
+    e.preventDefault();
+    console.log('CLICKED CATEGORY', e.target.value);
+    setValues({...values, subs: [], category: e.target.value});
     getCategorySubs(e.target.value)
-    .then(res => {
+    .then((res) => {
         console.log('SUB OPTION ON CATEGORY CLICK', res)
         setSubOptions(res.data);
     });
+    setShowSub(true);
 };
 
     return (
@@ -82,7 +84,7 @@ const handleCategorychange = (e) => {
                    handleChange={handleChange} 
                    setValues={setValues}
                    values={values}
-                   handleCategorychange={handleCategorychange}
+                   handleCategoryChange={handleCategoryChange}
                    subOptions={subOptions}
                    showSub={showSub}
                    />

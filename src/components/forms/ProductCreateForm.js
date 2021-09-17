@@ -8,9 +8,10 @@ const ProductCreateForm = ({
   handleSubmit, 
   values,
   setValues,
-  handleCategorychange,
+  handleCategoryChange,
   subOptions,
-  showSub}) => {
+  showSub,
+}) => {
 
     const {
       title,
@@ -26,7 +27,7 @@ const ProductCreateForm = ({
       brands,
       color,
       brand
-    }=values;
+    } = values;
 return (
   
   <form onSubmit={handleSubmit}>
@@ -62,7 +63,11 @@ return (
 
     <div className="form-group">
       <label>Shipping</label>
-      <select name="shipping" className="form-control" onChange={handleChange}>
+      <select 
+      name="shipping" 
+      className="form-control" 
+      onChange={handleChange}
+      >
         <option>Please Select</option>
         <option value="No"> NO</option>
         <option value="Yes">Yes</option>
@@ -76,7 +81,8 @@ return (
         name="quantity"
         className="form-control"
         value={quantity}
-        onChange={handleChange} />
+        onChange={handleChange} 
+        />
     </div>
 
     <div className="form-group">
@@ -108,7 +114,7 @@ return (
       <select
         name="category"
         className="form-control"
-        onChange={handleCategorychange}
+        onChange={handleCategoryChange}
       >
         <option>Please Select</option>
         {categories.length > 0 &&
@@ -119,6 +125,8 @@ return (
           ))}
       </select>
     </div>
+
+    {showSub && (
     <div>
       <label>Sub Categories</label>
       <Select
@@ -129,9 +137,16 @@ return (
         onChange={(value) => setValues({...values, subs: value })}
       >
         {subOptions.length 
-        && subOptions.map((s) => <Option key={s._id} value={s._id}>{s.name}</Option>)}
+        && subOptions.map((s) => ( 
+        <Option key={s._id} value={s._id}>
+          {s.name}
+          </Option>))}
     </Select>
-  </div><button className="btn btn-outline-info">Save</button>
+  </div>
+  )}
+  
+  <br/>
+  <button className="btn btn-outline-info">Save</button>
   </form>
 );
 };
