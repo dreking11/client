@@ -10,6 +10,7 @@ const ProductCard = ({product}) => {
 
     const {images,title,description,slug} = product;
     return (
+       
     <Card 
     cover={
         <img
@@ -29,7 +30,7 @@ const ProductCard = ({product}) => {
       >
         <Meta title={title} description={`${description && description.substring(0,10)}...`} />
     </Card>
-)
-}
+  );
+};
 
 export default ProductCard;
