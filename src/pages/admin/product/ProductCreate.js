@@ -49,7 +49,6 @@ const handleSubmit = (e) => {
     })
     .catch(err => {
         console.log(err)
-        toast.error(err.response.data.err);
         //if (err.response.status === 400) toast.error(err.response.data);
         toast.error(err.response.data.err);
     });

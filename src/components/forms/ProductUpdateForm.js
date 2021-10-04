@@ -10,7 +10,10 @@ const ProductUpdateForm = ({
   setValues,
   handleCategoryChange,
   categories,
-  subOptions
+  subOptions,
+  arrayOfSubs,
+  setArrayOfSubs,
+  selectedCategory
 }) => {
 
     const {
@@ -69,7 +72,7 @@ return (
       value={shipping === "Yes" ? "Yes" : "No"}
       >
         <option>Please Select</option>
-        <option value="No"> NO</option>
+        <option value="No"> No</option>
         <option value="Yes">Yes</option>
       </select>
     </div>
@@ -122,8 +125,9 @@ return (
         name="category"
         className="form-control"
         onChange={handleCategoryChange}
+        value={selectedCategory ? selectedCategory : category._id}
       >
-        <option>{category ? category.name : 'Please Select'}</option>
+        
         {categories.length > 0 &&
           categories.map((c) => (
             <option key={c._id} value={c._id}>
@@ -132,6 +136,23 @@ return (
           ))}
       </select>
     </div>
+
+    <div>
+      <label>Sub Categories</label>
+      <Select
+        mode="multiple"
+        style={{width:"100%"}}
+        placeholder="Please Select"
+        value={arrayOfSubs}
+        onChange={(value) => setArrayOfSubs(value)}
+      >
+        {subOptions.length 
+        && subOptions.map((s) => ( 
+        <Option key={s._id} value={s._id}>
+          {s.name}
+          </Option>))}
+    </Select>
+  </div>
   <br/>
   <button className="btn btn-outline-info">Save</button>
   </form>
