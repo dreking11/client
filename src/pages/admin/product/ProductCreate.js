@@ -19,7 +19,7 @@ const initialState = {
     quantity:'',
     images:[],
     colors:["Black", "Brown","Silver","White","Red"],
-    brands:["Apple", "Samsung","Microsoft","Lenovo","ASUS"],
+    brands:["Apple", "Samsung","Microsoft","Lenovo","ASUS","HP"],
     color:'',
     brand:'',
 }
@@ -80,7 +80,6 @@ const handleCategoryChange = (e) => {
                 <div className="col-md-10">
                    {loading ? <LoadingOutlined className="text-danger h1"/>:<h4>Product Create</h4>}
 
-                   {JSON.stringify(values.images)}
                     
                     <div className="p-3">
                         <FileUpload 
