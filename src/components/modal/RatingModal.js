@@ -10,15 +10,15 @@ const RatingModal = ({ children }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   let history = useHistory();
-  let slug = useParams();
+  let {slug} = useParams();
 
   const handleModal = () => {
       if(user && user.token) {
           setModalVisible(true);
       } else {
-          history.pushState({
+          history.push({
               pathname: '/login',
-              state: {from: `/product/${slug}`}
+              state: {from: `/product/${slug}`},
           });
       }
   };
